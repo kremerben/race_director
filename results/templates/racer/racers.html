@@ -1,0 +1,22 @@
+{% extends "results_manager_base.html" %}
+{% block title %}Racers{% endblock %}
+
+{%  block content %}
+<h1>Racers</h1>
+
+<ul>
+    {% for racer in racers|dictsort:"name" %}
+        <li><a href="{% url "view_racer" racer.id %}" >{{ racer.name }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+
+{% block subnav %}
+<nav>
+    <ul>
+{#        <li><a href="{% url "clubs" %}"> Clubs</a>#}
+        <li><a href="{% url 'new_racer' %}">Add a new racer</a></li>
+    </ul>
+</nav>
+{% endblock %}

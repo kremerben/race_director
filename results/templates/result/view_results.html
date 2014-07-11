@@ -1,0 +1,63 @@
+{% extends "results_manager_base.html" %}
+{% block title %}Racer{% endblock %}
+
+{%  block content %}
+
+<h1>{{ result.racer.name }}</h1>
+    {% if racer.club.name|length > 0 %}
+        <h2>{{ racer.club.name }}</h2>
+    {% endif %}
+<h3>{{ racer.city }}, {{ racer.state }}</h3>
+<hr>
+    <ul>
+    {% if racer.email|length > 0 %}
+        <li><a href="mailto:{{ racer.email }}">{{ racer.email }}</a></li>
+    {% endif %}
+    {% if racer.phone|length > 0 %}
+        <li>{{ racer.phone }}</li>
+    {% endif %}
+    </ul>
+<p>Age: {{ racer.age }}</p>
+
+<blockquote>
+    {{ racer.address1 }}<br>
+    {% if racer.address2.count > 0 %}
+        {{ racer.address2 }}<br>
+    {% endif %}
+    {{ racer.city }}, {{ racer.state }} {{ racer.zip }}<br>
+    {{ racer.country }}<br>
+</blockquote>
+    <hr>
+{#&nbsp; <a href="{% url "edit_racer" racer.id %}">Edit racer</a> *#}
+{#    <a href="{% url "delete_racer" racer.id %}">Delete racer</a>#}
+
+<hr>
+    <span style="font-size: small">future list results here</span>
+{#{% if racer.racerrs.count > 0 %}#}
+{##}
+{#    <h1>Racerrs in {{ club.name }}:</h1>#}
+{#        <ol>#}
+{#            {% for racerr in racer.racerrs.all|dictsort:'placer' %}#}
+{#                <li><a href="{% url "view_racer" racer.id %}" >{{ racerr.name }}</a></li>#}
+{#            {% endfor %}#}
+{#        </ol>#}
+{#{% endif %}#}
+{% endblock %}
+
+{% block subnav %}
+<nav>
+    <ul>
+        <li><a href="{% url "clubs" %}"> Clubs</a>
+    </ul>
+</nav>
+{% endblock %}
+
+
+    age = models.SmallIntegerField(max_length=3)
+    address1 = models.CharField(max_length=120)
+    address2 = models.CharField(max_length=120)
+    city = models.CharField(max_length=120)
+    state = models.CharField(max_length=120)
+    zip = models.CharField(max_length=120)
+    country = models.CharField(max_length=120)
+    club = models.ForeignKey(Club, related_name="club", null=True, blank=True)

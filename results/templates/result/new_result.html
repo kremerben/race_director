@@ -1,0 +1,21 @@
+{% extends "results_manager_base.html" %}
+{% block title %}Racers{% endblock %}
+
+{%  block content %}
+<h1>Add a Racer</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Add Racer">
+</form>
+
+{% endblock %}
+
+{% block subnav %}
+    <nav>
+    <ul>
+        <li><a href="{% url "clubs" %}"> Clubs</a>
+    </ul>
+</nav>
+{% endblock %}

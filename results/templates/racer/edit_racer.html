@@ -1,0 +1,25 @@
+{% extends "results_manager_base.html" %}
+{% block title %}Edit Racer{% endblock %}
+
+{%  block content %}
+
+<h1>Edit  {{ racer.name }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Update Racer">
+</form>
+
+
+
+
+{% endblock %}
+
+{% block subnav %}
+<nav>
+    <ul>
+        <li><a href="{% url "clubs" %}"> Clubs</a>
+        <li><a href="{% url "racers" %}"> Racers</a>
+    </ul>
+</nav>
+{% endblock %}

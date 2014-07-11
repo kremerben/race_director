@@ -1,0 +1,68 @@
+{% extends "results_manager_base.html" %}
+{% load humanize %}
+{% block title %}Racer{% endblock %}
+
+{%  block content %}
+
+<h1>{{ racer.name }}</h1>
+    {% if racer.club.name %}
+        <h2>{{ racer.club.name }}</h2>
+    {% endif %}
+    {% if racer.city %}
+        <h3>{{ racer.city }}, {{ racer.state }}</h3>
+    {% endif %}
+    <hr>
+    <ul>
+    {% if racer.email %}
+        <li><a href="mailto:{{ racer.email }}">{{ racer.email }}</a></li>
+    {% endif %}
+    {% if racer.phone %}
+        <li>{{ racer.phone }}</li>
+    {% endif %}
+    </ul>
+
+    {% if racer.age > 1 %}
+        <p>Age: {{ racer.age }}</p>
+    {% endif %}
+
+    {% if racer.city %}
+        <blockquote>
+            {{ racer.address1 }}<br>
+            {% if racer.address2.count > 0 %}
+                {{ racer.address2 }}<br>
+            {% endif %}
+            {{ racer.city }}, {{ racer.state }} {{ racer.zip }}<br>
+            {{ racer.country }}<br>
+        </blockquote>
+        <hr>
+    {% endif %}
+
+&nbsp; <a href="{% url "edit_racer" racer.id %}">Edit racer</a> *
+    <a href="{% url "delete_racer" racer.id %}">Delete racer</a>
+
+<hr>
+        {% if results.count > 0 %}
+            <h2>Results</h2>
+            {% for result in results %}
+                {{ result.place|ordinal }} - {{ result.race.name }}
+            {% endfor %}
+        {% endif %}
+{% endblock %}
+
+{% block subnav %}
+<nav>
+    <ul>
+        <li><a href="{% url "clubs" %}"> Clubs</a>
+    </ul>
+</nav>
+{% endblock %}
+
+
+    age = models.SmallIntegerField(max_length=3)
+    address1 = models.CharField(max_length=120)
+    address2 = models.CharField(max_length=120)
+    city = models.CharField(max_length=120)
+    state = models.CharField(max_length=120)
+    zip = models.CharField(max_length=120)
+    country = models.CharField(max_length=120)
+    club = models.ForeignKey(Club, related_name="club", null=True, blank=True)

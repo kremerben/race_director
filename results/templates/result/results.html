@@ -1,0 +1,22 @@
+{% extends "results_manager_base.html" %}
+{% block title %}Results{% endblock %}
+
+{%  block content %}
+<h1>Results</h1>
+
+<ul>
+    {% for race in past_races|dictsort:"date" reversed %}
+        <li><a href="{% url "view_race_results" race.id %}" >{{ race.name }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+
+{% block subnav %}
+<nav>
+    <ul>
+{#        <li><a href="{% url "clubs" %}"> Clubs</a>#}
+{#        <li><a href="{% url 'new_racer' %}">Add a new racer</a></li>#}
+    </ul>
+</nav>
+{% endblock %}

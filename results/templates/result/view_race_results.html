@@ -1,0 +1,105 @@
+{% extends "results_manager_base.html" %}
+{% block title %}Race{% endblock %}
+
+{%  block content %}
+
+<h1>RESULTS: <br>{{ race.name }}</h1>
+<h2>Date: {{ race.date }}</h2>
+<h2>Location: {{ race.location }}</h2>
+<hr>
+
+    {{ results.name }}
+<table class="table table-hover table-condensed">
+              <thead>
+                <tr>
+                  <th>Place</th>
+                  <th>Name</th>
+                  <th>Gender</th>
+                  <th>Finish Time</th>
+                </tr>
+              </thead>
+              <tbody>
+
+    {% for result in results|dictsort:'place'  %}
+        {% if result.racer.gender == "M" %}
+            <tr>
+                <td>{{ result.place }}.</td>
+                <td><a href="{% url "view_racer" result.racer.id %}" >{{ result.racer.name }}</a></td>
+                <td>{{ result.racer.gender }}</td>
+                <td>{{ result.get_split_time }}</td>
+{#                <td>{{ result.finish_time|timesince:result.start_time|date:'G:i:s' }}</td>#}
+            </tr>
+        {% endif %}
+    {% endfor %}
+
+<hr>
+              <thead>
+        <tr>
+            <td colspan="3">
+                Women's results
+            </td>
+        </tr>
+              </thead>
+              <thead>
+                <tr>
+                  <th>Place</th>
+                  <th>Name</th>
+                  <th>Gender</th>
+                  <th>Finish Time</th>
+                </tr>
+              </thead>
+
+
+    {% for result in results|dictsort:'place'  %}
+        {% if result.racer.gender == "F" %}
+            <tr>
+                <td>{{ result.place }}.</td>
+                <td><a href="{% url "view_racer" result.racer.id %}" >{{ result.racer.name }}</a></td>
+                <td>{{ result.racer.gender }}</td>
+                <td>{{ result.finish_time|date:'G:i:s' }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+
+              </tbody>
+            </table>
+{#    {% for racer in race.result_set.racer|dictsort:'date' %}#}
+
+
+<p>{{ race.description|linebreaks }}</p>
+    <ul>
+        <li>${{ race.fee }}</li>
+        <li>For more info contact: {{ race.contact_name }}
+        <ul>
+            {% if race.contact_email.count > 0 %}
+                <li><a href="mailto:{{ race.contact_email }}">{{ race.contact_email }}</a></li>
+            {% endif %}
+            {% if race.contact_phone.count > 0 %}
+                <li>{{ race.contact_phone }}</li>
+            {% endif %}
+        </ul>
+        </li>
+    </ul>
+
+<hr>
+&nbsp; <a href="{% url "edit_race" race.id %}">Edit race</a> *
+    <a href="{% url "delete_race" race.id %}">Delete race</a>
+
+{% if race.racers.count > 0 %}
+
+    <h1>Racers in {{ club.name }}:</h1>
+        <ol>
+            {% for racer in race.racers.all|dictsort:'place' %}
+                <li><a href="{% url "view_racer" racer.id %}" >{{ racer.name }}</a></li>
+            {% endfor %}
+        </ol>
+{% endif %}
+{% endblock %}
+
+{% block subnav %}
+<nav>
+    <ul>
+        <li><a href="{% url "clubs" %}"> Clubs</a>
+    </ul>
+</nav>
+{% endblock %}

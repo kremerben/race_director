@@ -1,0 +1,24 @@
+{% extends "results_manager_base.html" %}
+{% block title %}Edit Clubs{% endblock %}
+
+{%  block content %}
+
+<h1>Edit  {{ club.name }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Update Club">
+</form>
+
+
+
+
+{% endblock %}
+
+{% block subnav %}
+<nav>
+    <ul>
+        <li><a href="{% url "clubs" %}"> Clubs</a>
+    </ul>
+</nav>
+{% endblock %}

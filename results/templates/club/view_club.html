@@ -1,0 +1,29 @@
+{% extends "results_manager_base.html" %}
+{% block title %}Clubs{% endblock %}
+
+{%  block content %}
+
+<h1>{{ club.name }}</h1>
+<h2>Region: {{ club.region }}</h2>
+<h2>Location: {{ club.location }}</h2>
+
+&nbsp; <a href="{% url "edit_club" club.id %}">Edit club</a> *
+    <a href="{% url "delete_club" club.id %}">Delete club</a>
+
+{% if club.racers.count > 0 %}
+    <h1>Racers in {{ club.name }}:</h1>
+        <ul>
+            {% for racer in club.racers.all|dictsort:'name' %}
+        {#        <li><a href="{% url "view_racer" racer.id %}" >{{ racer.name }}</a></li>#}
+            {% endfor %}
+        </ul>
+{% endif %}
+{% endblock %}
+
+{% block subnav %}
+<nav>
+    <ul>
+        <li><a href="{% url "clubs" %}"> Clubs</a>
+    </ul>
+</nav>
+{% endblock %}

@@ -1,0 +1,22 @@
+{% extends "results_manager_base.html" %}
+{% block title %}Clubs{% endblock %}
+
+{%  block content %}
+<h1>Clubs</h1>
+
+<ul>
+    {% for club in clubs %}
+        <li><a href="{% url "view_club" club.id %}" >{{ club.name }}</a></li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
+
+{% block subnav %}
+<nav>
+    <ul>
+{#        <li><a href="{% url "clubs" %}"> Clubs</a>#}
+        <li><a href="{% url 'new_club' %}">Add a new club</a></li>
+    </ul>
+</nav>
+{% endblock %}

@@ -29,6 +29,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+AUTH_USER_MODEL = 'results.User'
+
+
 INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +41,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'results',
+    'django.contrib.humanize',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -57,12 +61,20 @@ WSGI_APPLICATION = 'race_director.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'race_director',
+        }
 }
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -101,6 +113,6 @@ DEFAULT_FROM_EMAIL = 'kremer.ads@gmail.com'
 
 
 try:
-    from race_director.local_settings import *
+    from local_settings import *
 except ImportError:
     pass

@@ -1,0 +1,25 @@
+{% extends 'results_manager_base.html' %}
+{% load humanize %}
+
+
+{% block title %}Profile - {{ user.first_name|title }}{% endblock %}
+{% block content %}
+    <p>Hi {{ user.first_name|title }} {{ user.last_name|title }}, you were last here {{ user.last_login|naturalday }}, {{ user.last_login|naturaltime }}</p>
+    <p>Your email address is <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+    <p>Joined: {{ user.date_joined|timesince }} ago</p>
+
+
+    <hr>
+
+
+
+    <ol>
+    {% for winner in winners_list %}
+        <li>{{ winner.player__first_name }}  - points: {{ winner.result__sum }}</li>
+    {% endfor %}
+    </ol>
+    <hr>
+    {% for game in war_games %}
+        {{ game.get_result_display }}
+    {% endfor %}
+{% endblock content %}
