@@ -21,15 +21,16 @@ SECRET_KEY = 'nco@1xh1hyqx4blvfj+34o1&-s&6!w3hl2@@-3vf!w5)7b$0cg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 TEMPLATE_DEBUG = True
-
 ALLOWED_HOSTS = []
 
 
 # Application definition
+LOGIN_REDIRECT_URL = 'profile'
+LOGIN_URL = 'login'
 
 AUTH_USER_MODEL = 'results.User'
+AUTH_PROFILE_MODULE = "results.User"
 
 
 INSTALLED_APPS = (

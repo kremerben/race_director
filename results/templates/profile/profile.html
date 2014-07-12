@@ -1,0 +1,38 @@
+{% extends 'results_manager_base.html' %}
+{% load humanize %}
+
+
+{% block title %}Profile - {{ user.first_name|title }}{% endblock %}
+{% block content %}
+    <p>Hi {{ user.first_name|title }} {{ user.last_name|title }}, you were last here {{ user.last_login|naturalday }}, {{ user.last_login|naturaltime }}</p>
+    <p>Your email address is <a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
+    <p>Joined: {{ user.date_joined|timesince }} ago</p>
+    <p>image: {{ user.image }}</p>
+{#    <p>Bio: <img id="black_joker" width="80px" src="{% static "media/card_images/black_joker.jpg" %}">#}
+{% if user.image %}
+    <img src="/static/{{ user.image.url }}">
+{% endif %}
+    </p>
+    <p>username: {{ user.username }}</p>
+    <p>{{ user.address1 }}</p>
+    {% if user.address2 %}
+        <p>{{ user.address2 }}</p>
+    {% endif %}
+    <p>{{ user.city }}, {{ user.state }} {{ user.zip }}</p>
+    <p>{{ user.country }}</p>
+
+    <hr>
+
+    <p>        <a href="{% url 'profile_update' user.id %}">update profile</a>
+</p>
+
+    <ol>
+    {% for winner in winners_list %}
+        <li>{{ winner.player__first_name }}  - points: {{ winner.result__sum }}</li>
+    {% endfor %}
+    </ol>
+    <hr>
+    {% for game in war_games %}
+        {{ game.get_result_display }}
+    {% endfor %}
+{% endblock content %}

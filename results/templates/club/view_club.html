@@ -6,6 +6,9 @@
 <h1>{{ club.name }}</h1>
 <h2>Region: {{ club.region }}</h2>
 <h2>Location: {{ club.location }}</h2>
+<h2>web: {{ club.website }}</h2>
+
+
 
 &nbsp; <a href="{% url "edit_club" club.id %}">Edit club</a> *
     <a href="{% url "delete_club" club.id %}">Delete club</a>
@@ -22,8 +25,11 @@
 
 {% block subnav %}
 <nav>
-    <ul>
-        <li><a href="{% url "clubs" %}"> Clubs</a>
-    </ul>
+   {% if user.is_staff %}
+       <ul>
+           <li><a href="{% url "edit_club" club.id %}">Edit Club</a></li>
+           <li> <a href="{% url "delete_club" club.id %}">Delete Club</a></li>
+       </ul>
+   {% endif %}
 </nav>
 {% endblock %}

@@ -1,0 +1,32 @@
+{% extends 'results_manager_base.html' %}
+{% load humanize %}
+
+
+{% block title %}Profile - {{ user.first_name|title }}{% endblock %}
+{% block content %}
+    <p>Hi {{ user.first_name|title }}, update your profile below</p>
+
+    <hr>
+
+
+    <form method="post" action="." enctype="multipart/form-data">
+        {% csrf_token %}
+    First Name: {{ form.first_name }}
+    Last Name: {{ form.last_name }}
+    email: {{ form.email }}
+    image: {{ form.image }}
+    bio: {{ form.bio }}
+    address: {{ form.address1 }}
+    address2: {{ form.address2 }}
+    City: {{ form.city }}
+    State: {{ form.state }}
+    Zip: {{ form.zip }}
+    Country: {{ form.country }}
+{{ form.password.as_hidden }}
+{{ form.username.as_hidden }}
+        <input type="submit" value="Update">
+    </form>
+
+
+
+{% endblock content %}

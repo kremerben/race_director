@@ -1,4 +1,6 @@
 {% extends "results_manager_base.html" %}
+{% load list_filters %}
+
 {% block title %}Race{% endblock %}
 
 {%  block content %}
@@ -8,13 +10,30 @@
 <h2>Location: {{ race.location }}</h2>
 <hr>
 
-    {{ results.name }}
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active"><a href="#results" role="tab" data-toggle="tab">Results</a></li>
+  <li><a href="#raceinfo" role="tab" data-toggle="tab">Race Info</a></li>
+
+  {% if race.info_document or race.result_document %}
+    <li><a href="#documents" role="tab" data-toggle="tab">Documents</a></li>
+  {% endif %}
+{#  <li><a href="#messages" role="tab" data-toggle="tab">Messages</a></li>#}
+{#  <li><a href="#settings" role="tab" data-toggle="tab">Settings</a></li>#}
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane active" id="results">
+
 <table class="table table-hover table-condensed">
               <thead>
                 <tr>
                   <th>Place</th>
                   <th>Name</th>
-                  <th>Gender</th>
+                  <th>Class</th>
+                  <th>P</th>
+                  <th>S</th>
+                  <th>P</th>
+                  <th>S</th>
                   <th>Finish Time</th>
                 </tr>
               </thead>
@@ -25,8 +44,12 @@
             <tr>
                 <td>{{ result.place }}.</td>
                 <td><a href="{% url "view_racer" result.racer.id %}" >{{ result.racer.name }}</a></td>
-                <td>{{ result.racer.gender }}</td>
-                <td>{{ result.get_split_time }}</td>
+                <td>{{ result.racer.age|ageclass:result.racer.gender }}</td>
+                <td>{{ result.first_shoot }}</td>
+                <td>{{ result.second_shoot }}</td>
+                <td>{{ result.third_shoot }}</td>
+                <td>{{ result.fourth_shoot }}</td>
+                <td>{{ result.finish_time }}</td>
 {#                <td>{{ result.finish_time|timesince:result.start_time|date:'G:i:s' }}</td>#}
             </tr>
         {% endif %}
@@ -44,10 +67,15 @@
                 <tr>
                   <th>Place</th>
                   <th>Name</th>
-                  <th>Gender</th>
+                  <th>M/F</th>
+                  <th>P</th>
+                  <th>S</th>
+                  <th>P</th>
+                  <th>S</th>
                   <th>Finish Time</th>
                 </tr>
               </thead>
+              <tbody>
 
 
     {% for result in results|dictsort:'place'  %}
@@ -56,50 +84,81 @@
                 <td>{{ result.place }}.</td>
                 <td><a href="{% url "view_racer" result.racer.id %}" >{{ result.racer.name }}</a></td>
                 <td>{{ result.racer.gender }}</td>
-                <td>{{ result.finish_time|date:'G:i:s' }}</td>
+                <td>{{ result.first_shoot }}</td>
+                <td>{{ result.second_shoot }}</td>
+                <td>{{ result.third_shoot }}</td>
+                <td>{{ result.fourth_shoot }}</td>
+                <td>{{ result.finish_time }}</td>
             </tr>
         {% endif %}
     {% endfor %}
 
               </tbody>
             </table>
-{#    {% for racer in race.result_set.racer|dictsort:'date' %}#}
 
-
-<p>{{ race.description|linebreaks }}</p>
-    <ul>
-        <li>${{ race.fee }}</li>
-        <li>For more info contact: {{ race.contact_name }}
+    </div>
+    <div class="tab-pane" id="raceinfo">
+            <h3>{{ race.name }}<br>
+            {{ race.date }}<br>
+            {{ race.location }}</h2>
+    <hr>
+    <p>{{ race.description|linebreaks }}</p>
         <ul>
-            {% if race.contact_email.count > 0 %}
-                <li><a href="mailto:{{ race.contact_email }}">{{ race.contact_email }}</a></li>
-            {% endif %}
-            {% if race.contact_phone.count > 0 %}
-                <li>{{ race.contact_phone }}</li>
-            {% endif %}
+            <li>${{ race.fee }}</li>
+            <li>For more info contact: {{ race.contact_name }}
+            <ul>
+                {% if race.contact_email.count > 0 %}
+                    <li><a href="mailto:{{ race.contact_email }}">{{ race.contact_email }}</a></li>
+                {% endif %}
+                {% if race.contact_phone.count > 0 %}
+                    <li>{{ race.contact_phone }}</li>
+                {% endif %}
+            </ul>
+            </li>
         </ul>
-        </li>
-    </ul>
-
+    </div>
+    <div class="tab-pane" id="documents">
+    <hr><hr>
+      <ul>
+        {% if race.info_document %}
+    <li>
+        Race Info: <a href="{{ race.info_document.url }}" target="_blank">{{ race.info_document.file|filename_only }}</a>
+    </li>
+      {% endif %}
+        {% if race.result_document %}
+    <li>
+        Race Info: <a href="{{ race.result_document.url }}" target="_blank">{{ race.result_document.file|filename_only }}</a>
+    </li>
+      {% endif %}
+    </div>
 <hr>
-&nbsp; <a href="{% url "edit_race" race.id %}">Edit race</a> *
-    <a href="{% url "delete_race" race.id %}">Delete race</a>
 
-{% if race.racers.count > 0 %}
 
-    <h1>Racers in {{ club.name }}:</h1>
-        <ol>
-            {% for racer in race.racers.all|dictsort:'place' %}
-                <li><a href="{% url "view_racer" racer.id %}" >{{ racer.name }}</a></li>
-            {% endfor %}
-        </ol>
-{% endif %}
+
+{#{% if race.racers.count > 0 %}#}
+{##}
+{#    <h1>Racers in {{ club.name }}:</h1>#}
+{#        <ol>#}
+{#            {% for racer in race.racers.all|dictsort:'place' %}#}
+{#                <li><a href="{% url "view_racer" racer.id %}" >{{ racer.name }}</a></li>#}
+{#            {% endfor %}#}
+{#        </ol>#}
+{#{% endif %}#}
 {% endblock %}
 
 {% block subnav %}
-<nav>
-    <ul>
-        <li><a href="{% url "clubs" %}"> Clubs</a>
-    </ul>
-</nav>
+       {% if user.is_staff %}
+    <nav class="navbar navbar-default">
+        <ul class="nav navbar-nav">
+           <li><a href="{% url "edit_race" race.id %}">Edit race</a></li>
+           <li> <a href="{% url "delete_race" race.id %}">Delete race</a></li>
+       </ul>
+    </nav>
+   {% endif %}
+
+{#<nav>#}
+{#    <ul>#}
+{#        <li><a href="{% url "clubs" %}"> Clubs</a>#}
+{#    </ul>#}
+{#</nav>#}
 {% endblock %}

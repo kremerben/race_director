@@ -7,16 +7,6 @@ from datetime import datetime, timedelta, date
 import time
 # Create your models here.
 
-class User(AbstractUser):
-    bio = models.TextField(null=True, blank=True)
-    address1 = models.CharField(max_length=120, blank=True)
-    address2 = models.CharField(max_length=120, blank=True)
-    city = models.CharField(max_length=120, blank=True)
-    state = models.CharField(max_length=120, blank=True)
-    zip = models.CharField(max_length=120, blank=True)
-    country = models.CharField(max_length=120, blank=True)
-
-
 class BaseModel(models.Model):
     name = models.CharField(max_length=120)
 
@@ -31,6 +21,17 @@ class Club(BaseModel):
     contact_name = models.CharField(max_length=120)
     contact_email = models.EmailField(null=True, blank=True)
     contact_phone = models.CharField(max_length=120, blank=True)
+
+class User(AbstractUser):
+    bio = models.TextField(null=True, blank=True)
+    address1 = models.CharField(max_length=120, blank=True)
+    address2 = models.CharField(max_length=120, blank=True)
+    city = models.CharField(max_length=120, blank=True)
+    state = models.CharField(max_length=120, blank=True)
+    zip = models.CharField(max_length=120, blank=True)
+    country = models.CharField(max_length=120, blank=True)
+    club = models.ForeignKey(Club, related_name="home_club", null=True, blank=True)
+    image = models.ImageField(upload_to='user_images/', null=True, blank=True)
 
 
 class RaceSeries(BaseModel):
@@ -85,28 +86,79 @@ class Racer(BaseModel):
 
     age = property(calculate_age)
 
+
+class Biathlete(models.Model):
+    # THESE DATES SHOULD BE datetime.now - datetime year, etc. of enter date to ageclass
+    # currently set to oldest age for class
+    BOY10 = 10
+    BOY12 = 12
+    BOY14 = 14
+    BOY16 = 16
+    YM = 18
+    JM = 20
+    SM = 29
+    MM = 44
+    SMM = 99
+    GIRL10 = 10
+    GIRL12 = 12
+    GIRL14 = 14
+    GIRL16 = 16
+    YW = 18
+    JW = 20
+    SW = 29
+    MW = 44
+    SMW = 99
+
+    age_class = {
+        'BOY10': "Boys under 10",
+        'BOY12': "Boys under 12",
+        'BOY14': "Boys under 14",
+        'BOY16': "Boys under 16",
+        'YM': "Youth Men",
+        'JM': "Junior Men",
+        'SM': "Men",
+        'MM': "Masters Men",
+        'SMM': "Senior Masters Men",
+        'GIRL10': "Girls under 10",
+        'GIRL12': "Girls under 12",
+        'GIRL14': "Girls under 14",
+        'GIRL16': "Girls under 16",
+        'YW': "Youth Women",
+        'JW': "Junior Women",
+        'SW': "Women",
+        'MW': "Masters Women",
+        'SMW': "Senior Masters Women",
+    }
+
+
+
 class Result(models.Model):
     racer = models.ForeignKey(Racer, related_name="racer")
     race = models.ForeignKey(Race, related_name="race")
-    start_time = models.DateTimeField(default="9:00")
-    finish_time = models.DateTimeField()
-    place = models.IntegerField()
+    start_time = models.CharField(max_length=120)
+    finish_time = models.CharField(max_length=120)
+    place = models.SmallIntegerField()
+    first_shoot = models.SmallIntegerField(blank=True)
+    second_shoot = models.SmallIntegerField(blank=True)
+    third_shoot = models.SmallIntegerField(blank=True)
+    fourth_shoot = models.SmallIntegerField(blank=True)
 
-    def get_split_time(self):
-        # return timedelta
-        if self.start_time is None or self.start_time == "":
-            return (datetime(self.finish_time)) - (datetime(self.race.start_time))
-        else:
-            return (datetime(self.finish_time)) - (datetime(self.start_time))
-
-    def get_race_age(self):
-        return self.race.date - self.racer.birthdate
+    # def get_split_time(self):
+    #     # return timedelta
+    #     if self.start_time is None or self.start_time == "":
+    #         return (datetime(self.finish_time)) - (datetime(self.race.start_time))
+    #     else:
+    #         return (datetime(self.finish_time)) - (datetime(self.start_time))
+    #
+    # def get_race_age(self):
+    #     return self.race.date - self.racer.birthdate
 
 
     def __unicode__(self):
         return "{}:\t{}. {} \t{}\t".format(self.race, self.place, self.racer, self.finish_time)
         # return "{}. {} \t{}".format(self.place, self.racer, self.race, self.get_split_time())
 
-class CustomResultField(BaseModel):
-    custom_field_value = models.CharField(max_length=120, blank=True)
+class CustomResultField(models.Model):
+    custom_result_name = models.CharField(max_length=120)
+    custom_result_value = models.CharField(max_length=120, blank=True)
     custom_result = models.ForeignKey(Result, related_name="custom_result")

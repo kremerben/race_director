@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth.models import User
 from models import *
 
@@ -36,7 +36,7 @@ class RaceForm(ModelForm):
     class Meta:
         model = Race
         widgets = {
-          'description': forms.Textarea(attrs={'rows':4}),
+            'description': forms.Textarea(attrs={'rows': 4}),
         }
 
 class RacerForm(ModelForm):
@@ -50,4 +50,21 @@ class RacerForm(ModelForm):
 class ResultForm(ModelForm):
     class Meta:
         model = Result
+
+
+class UserForm(UserChangeForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "image", "bio", "email", "address1", "address2", "city", "state", "zip", "country", "username", "password")
+
+# class UserProfileUpdate(forms.Form):
+#     first_name = forms.CharField(max_length=30)
+#     last_name = forms.CharField(max_length=30)
+#     email = forms.EmailField(required=True)
+#
+#
+#     class Meta:
+#         model = User
+#         fields = ('first_name', 'last_name', 'email')
+#
 

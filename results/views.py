@@ -1,5 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response, redirect
+from django.template import RequestContext
 from forms import *
 from django.core.mail import send_mail
 from models import *
@@ -8,10 +9,13 @@ from models import *
 def home(request):
     upcoming_races = Race.objects.filter(date__gt=datetime.today())
     past_races = Race.objects.filter(date__lt=datetime.today())
-    return render_to_response("home.html", {'upcoming_races': upcoming_races, 'past_races': past_races})
+    data = {
+        'user': request.user,
+        'upcoming_races': upcoming_races,
+        'past_races': past_races,
+    }
 
-
-
+    return render_to_response("home.html", data)
 
 
 
@@ -39,9 +43,100 @@ def profile(request):
     data = {
         'user': request.user,
     }
-    return render(request, 'profile.html', data)
+    return render(request, 'profile/profile.html', data)
 
 
+
+"""
+NEED TO FIX
+"""
+
+
+@login_required
+def profile_update(request, user_id):
+    user = User.objects.get(id=user_id)
+    if request.method == "POST":
+        form = UserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect("profile")
+    else:
+        form = UserForm(instance=user)
+    data = {"user": request.user, "form": form}
+    return render(request, "profile/profile_update.html", data)
+
+
+
+
+
+# @login_required
+# def profile_update(request):
+#     if request.method == 'POST':
+#         form = UserForm(request.POST)
+#         if form.is_valid():
+#             request.user.first_name = form.cleaned_data['first_name']
+#             request.user.save()
+#             # user.email_user("Welcome!", "Thank you, {} {} for signing up for our website.".format(user.first_name, user.last_name))
+#             # text_content = 'Thank you {} {} for signing up for our website on {}.'.format(user.first_name, user.last_name, user.date_joined)
+#             # html_content = '<h2>Thanks {} {} for signing up on {}!</h2> <div>I hope you enjoy using our site</div>'.format(user.first_name, user.last_name, user.date_joined.strftime("%B %d, %Y"))
+#             # msg = RaceUserCreationForm("Welcome! {} {}".format(user.first_name, user.last_name), text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
+#             # msg.attach_alternative(html_content, "text/html")
+#             # msg.send()
+#             return redirect("profile")
+#     else:
+#         form = UserForm()
+#     user = request.user
+#     return render(request, "profile/profile_update.html", {
+#         'form': form, 'user': user,
+#     })
+
+
+
+
+
+
+#     success = False
+#     user = User.objects.get(pk=request.user.id)
+#
+#     if request.method == 'POST':
+#         form = UserProfileUpdate(request.POST)
+#         if form.is_valid():
+#             user.firstname = get
+#             ## list update parts here
+#
+#
+#             user.save()
+#             success = True
+#             # user.email_user("Welcome!", "Thank you, {} {} for signing up for our website.".format(user.first_name, user.last_name))
+#             # text_content = 'Thank you {} {} for signing up for our website on {}.'.format(user.first_name, user.last_name, user.date_joined)
+#             # html_content = '<h2>Thanks {} {} for signing up on {}!</h2> <div>I hope you enjoy using our site</div>'.format(user.first_name, user.last_name, user.date_joined.strftime("%B %d, %Y"))
+#             # msg = RaceUserCreationForm("Welcome! {} {}".format(user.first_name, user.last_name), text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
+#             # msg.attach_alternative(html_content, "text/html")
+#             # msg.send()
+#             return redirect("profile")
+#     else:
+#         form = UserProfileUpdate(instance=user.get_profile())
+#     return render(request, "profile/profile_update.html", {
+#         'form': form,
+#     })
+
+#
+# @login_required
+# def profile_update(request):
+#     success = False
+#     user = User.objects.get(pk=request.user.id)
+#     if request.method == 'POST':
+#         upform = UserProfileUpdate(request.POST, instance=user.get_profile())
+#         if upform.is_valid():
+#             up = upform.save(commit=False)
+#             up.user = request.user
+#             up.save()
+#             success = True
+#     else:
+#         upform = UserProfileUpdate(instance=user.get_profile())
+#
+    # return render_to_response('profile/profile_update.html',
+    #     locals(), context_instance=RequestContext(request))
 
 
 

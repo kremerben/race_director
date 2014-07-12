@@ -58,11 +58,11 @@ class RacerAdmin(admin.ModelAdmin):
 
 
 class ResultAdmin(admin.ModelAdmin):
-    def finish_time_format(self, obj):
-        return obj.finish_time.strftime("%H:%M:%S")
+    # def finish_time_format(self, obj):
+    #     return obj.finish_time.strptime("%H:%M:%S")
 
-    finish_time_format.short_description = 'Finish Time'
-    finish_time_format.admin_order_field = 'finish_time'
+    # finish_time_format.short_description = 'Finish Time'
+    # finish_time_format.admin_order_field = 'finish_time'
 
     def racer_gender(self, obj):
         return obj.racer.gender
@@ -72,10 +72,13 @@ class ResultAdmin(admin.ModelAdmin):
 
     fieldsets = (
         ('Name', {
-            'fields': ('race', 'place', 'racer', 'start_time', 'finish_time')
+            'fields': ('race', 'place', 'racer', 'finish_time')
+        }),
+        ('Shooting', {
+            'fields': ('first_shoot', 'second_shoot', 'third_shoot', 'fourth_shoot')
         }),
     )
-    list_display = ('place', 'racer', 'racer_gender', 'start_time', 'finish_time_format', 'race')
+    list_display = ('place', 'racer', 'racer_gender', 'finish_time', 'race')
     list_filter = ('race', 'place', 'racer')
     ordering = ('place', 'finish_time')
 
