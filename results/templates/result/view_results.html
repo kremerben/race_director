@@ -45,19 +45,10 @@
 {% endblock %}
 
 {% block subnav %}
-<nav>
-    <ul>
+    <nav class="navbar navbar-default">
+        <ul class="nav navbar-nav">
         <li><a href="{% url "clubs" %}"> Clubs</a>
     </ul>
 </nav>
 {% endblock %}
 
-
-    age = models.SmallIntegerField(max_length=3)
-    address1 = models.CharField(max_length=120)
-    address2 = models.CharField(max_length=120)
-    city = models.CharField(max_length=120)
-    state = models.CharField(max_length=120)
-    zip = models.CharField(max_length=120)
-    country = models.CharField(max_length=120)
-    club = models.ForeignKey(Club, related_name="club", null=True, blank=True)

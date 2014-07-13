@@ -28,6 +28,7 @@ ALLOWED_HOSTS = []
 # Application definition
 LOGIN_REDIRECT_URL = 'profile'
 LOGIN_URL = 'login'
+LOGOUT_URL = 'home'
 
 AUTH_USER_MODEL = 'results.User'
 AUTH_PROFILE_MODULE = "results.User"

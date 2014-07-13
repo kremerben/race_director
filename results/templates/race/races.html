@@ -6,17 +6,20 @@
 
 <ul>
     {% for race in races|dictsort:'date' %}
-        <li><a href="{% url "view_race" race.id %}" >{{ race.name }}</a></li>
+        <li>{{ race.date|date:"M j, Y" }} - <a href="{% url "view_race" race.id %}" >{{ race.name }}</a></li>
     {% endfor %}
 </ul>
 
 {% endblock %}
 
 {% block subnav %}
-<nav>
-    <ul>
-{#        <li><a href="{% url "clubs" %}"> Clubs</a>#}
+
+   {% if user.is_staff %}
+    <nav class="navbar navbar-default">
+        <ul class="nav navbar-nav">
         <li><a href="{% url 'new_race' %}">Add a new race</a></li>
-    </ul>
-</nav>
+       </ul>
+    </nav>
+    {% endif %}
+    </nav>
 {% endblock %}

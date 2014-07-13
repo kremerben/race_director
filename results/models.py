@@ -62,7 +62,7 @@ class Race(BaseModel):
     race_series = models.ForeignKey(RaceSeries, related_name="race_series", null=True, blank=True)
 
     def __unicode__(self):
-        return "{} - {}".format(self.name, self.date)
+        return "{} - {}".format(self.date, self.name)
 
 
 class Racer(BaseModel):
@@ -94,6 +94,7 @@ class Biathlete(models.Model):
     BOY12 = 12
     BOY14 = 14
     BOY16 = 16
+    BOYS = 16
     YM = 18
     JM = 20
     SM = 29
@@ -103,6 +104,7 @@ class Biathlete(models.Model):
     GIRL12 = 12
     GIRL14 = 14
     GIRL16 = 16
+    GIRLS = 16
     YW = 18
     JW = 20
     SW = 29
@@ -114,6 +116,7 @@ class Biathlete(models.Model):
         'BOY12': "Boys under 12",
         'BOY14': "Boys under 14",
         'BOY16': "Boys under 16",
+        'BOYS': "Boys under 16",
         'YM': "Youth Men",
         'JM': "Junior Men",
         'SM': "Men",
@@ -123,6 +126,7 @@ class Biathlete(models.Model):
         'GIRL12': "Girls under 12",
         'GIRL14': "Girls under 14",
         'GIRL16': "Girls under 16",
+        'GIRLS': "Girls under 16",
         'YW': "Youth Women",
         'JW': "Junior Women",
         'SW': "Women",

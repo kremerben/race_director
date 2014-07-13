@@ -13,10 +13,12 @@
 {% endblock %}
 
 {% block subnav %}
-<nav>
-    <ul>
-{#        <li><a href="{% url "clubs" %}"> Clubs</a>#}
+   {% if user.is_staff %}
+    <nav class="navbar navbar-default">
+        <ul class="nav navbar-nav">
         <li><a href="{% url 'new_racer' %}">Add a new racer</a></li>
-    </ul>
-</nav>
+       </ul>
+    </nav>
+    {% endif %}
+    </nav>
 {% endblock %}

@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^$', 'results.views.home', name='home'),
     url(r'^register/$', 'results.views.register', name='register'),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', name='logout'),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout' ),
 
 
     url(r'^profile/$', 'results.views.profile', name='profile'),
@@ -55,8 +55,9 @@ urlpatterns = patterns('',
     url(r'^racers/(?P<racer_id>\w+)/delete/$', 'results.views.delete_racer', name='delete_racer'),
 
     url(r'^results/$', 'results.views.results', name='results'),
+    url(r'^bulk_results/$', 'results.views.bulk_results', name='bulk_results'),
     url(r'^results/new/$', 'results.views.new_result', name='new_result'),
-    url(r'^results/(?P<result_id>\w+)/$', 'results.views.view_result', name='view_result'),
+    # url(r'^results/(?P<result_id>\w+)/$', 'results.views.view_result', name='view_result'),
     url(r'^results/(?P<result_id>\w+)/edit/$', 'results.views.edit_result', name='edit_result'),
     url(r'^results/(?P<result_id>\w+)/delete/$', 'results.views.delete_result', name='delete_result'),
 

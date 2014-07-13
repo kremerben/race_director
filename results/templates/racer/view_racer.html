@@ -41,17 +41,34 @@
 <hr>
         {% if results.count > 0 %}
             <h2>Results</h2>
-            {% for result in results %}
-                {{ result.place|ordinal }} - {{ result.race.name }}
+            <ul>{% for result in results %}
+                <li>{{ result.place|ordinal }} - <a href="{% url "view_race" result.race.id %}" >{{ result.race.name }}</a> - Shooting: ({{ result.first_shoot }}
+                 {{ result.second_shoot }} {{ result.third_shoot }} {{ result.fourth_shoot }})
+                </li>
             {% endfor %}
+            </ul>
         {% endif %}
 {% endblock %}
 
 {% block subnav %}
+
+{#        {% include 'includes/top_three_results_plus.html' with all_results=all_results %}#}
+
+
 <nav class="navbar navbar-default">
     <ul class="nav navbar-nav">
+</ul>
+    </nav>
 
 
+
+    {% if user.is_staff %}
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url "edit_racer" racer.id %}">Edit race</a></li>
+            </ul>
+        </nav>
+    {% endif %}
 
 
 {% endblock %}

@@ -1,3 +1,5 @@
+import re
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, render_to_response, redirect
 from django.template import RequestContext
@@ -10,14 +12,63 @@ def home(request):
     upcoming_races = Race.objects.filter(date__gt=datetime.today())
     past_races = Race.objects.filter(date__lt=datetime.today())
     data = {
-        'user': request.user,
         'upcoming_races': upcoming_races,
         'past_races': past_races,
     }
+    return render(request, "home.html", data)
 
-    return render_to_response("home.html", data)
+
+@login_required
+def bulk_results(request):
+    if request.method == 'POST':
+        form = BulkCreateResults(request.POST)
+        if form.is_valid():
+            race = form.cleaned_data['race']
+            results = form.cleaned_data['results']
+            for line in results.split('\n'):
+                m = re.search(r'^.+(BOY|BOYS|YM|JM|SM|MM|SMM|GIRL|GIRLS|YW|JW|SW|MW|SMW).+', line)
+                age_class = ""
+                if m:
+                    age_class = m.group(0)
+                    line = line.replace(age_class, "")
+                gender = 'M'
+                m = re.search(r'^([0-9]+)\s([0-9]+)?\s?(\S+\s+\S+)\s+([a-zA-Z \.\-]+).+', line)
+                name = "NN"
+                place = 2
+                if m:
+                    place = m.group(1)
+                    bib_number = m.group(2)
+                    name = m.group(3)
+                    club = m.group(4)
+                racer, created = Racer.objects.get_or_create(name=name, gender=gender)
 
 
+
+
+
+                Result.objects.create(race=race, racer=racer, place=place,
+                                      start_time='0:00:00', finish_time='0:10:12',
+                                      first_shoot=1, second_shoot=2, third_shoot=3,
+                                      fourth_shoot=4)
+
+            # user = form.save()
+            # user.email_user("Welcome!", "Thank you, {} {} for signing up for our website.".format(user.first_name, user.last_name))
+            # text_content = 'Thank you {} {} for signing up for our website on {}.'.format(user.first_name, user.last_name, user.date_joined)
+            # html_content = '<h2>Thanks {} {} for signing up on {}!</h2> <div>I hope you enjoy using our site</div>'.format(user.first_name, user.last_name, user.date_joined.strftime("%B %d, %Y"))
+            # msg = RaceUserCreationForm("Welcome! {} {}".format(user.first_name, user.last_name), text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
+            # msg.attach_alternative(html_content, "text/html")
+            # msg.send()
+            return redirect("bulk_results")
+    else:
+        form = BulkCreateResults()
+    return render(request, "result/bulk_add_results.html", {
+        'form': form,
+    })
+
+
+"""
+USER PROFILES
+"""
 
 def register(request):
     if request.method == 'POST':
@@ -46,12 +97,6 @@ def profile(request):
     return render(request, 'profile/profile.html', data)
 
 
-
-"""
-NEED TO FIX
-"""
-
-
 @login_required
 def profile_update(request, user_id):
     user = User.objects.get(id=user_id)
@@ -66,89 +111,14 @@ def profile_update(request, user_id):
     return render(request, "profile/profile_update.html", data)
 
 
-
-
-
-# @login_required
-# def profile_update(request):
-#     if request.method == 'POST':
-#         form = UserForm(request.POST)
-#         if form.is_valid():
-#             request.user.first_name = form.cleaned_data['first_name']
-#             request.user.save()
-#             # user.email_user("Welcome!", "Thank you, {} {} for signing up for our website.".format(user.first_name, user.last_name))
-#             # text_content = 'Thank you {} {} for signing up for our website on {}.'.format(user.first_name, user.last_name, user.date_joined)
-#             # html_content = '<h2>Thanks {} {} for signing up on {}!</h2> <div>I hope you enjoy using our site</div>'.format(user.first_name, user.last_name, user.date_joined.strftime("%B %d, %Y"))
-#             # msg = RaceUserCreationForm("Welcome! {} {}".format(user.first_name, user.last_name), text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
-#             # msg.attach_alternative(html_content, "text/html")
-#             # msg.send()
-#             return redirect("profile")
-#     else:
-#         form = UserForm()
-#     user = request.user
-#     return render(request, "profile/profile_update.html", {
-#         'form': form, 'user': user,
-#     })
-
-
-
-
-
-
-#     success = False
-#     user = User.objects.get(pk=request.user.id)
-#
-#     if request.method == 'POST':
-#         form = UserProfileUpdate(request.POST)
-#         if form.is_valid():
-#             user.firstname = get
-#             ## list update parts here
-#
-#
-#             user.save()
-#             success = True
-#             # user.email_user("Welcome!", "Thank you, {} {} for signing up for our website.".format(user.first_name, user.last_name))
-#             # text_content = 'Thank you {} {} for signing up for our website on {}.'.format(user.first_name, user.last_name, user.date_joined)
-#             # html_content = '<h2>Thanks {} {} for signing up on {}!</h2> <div>I hope you enjoy using our site</div>'.format(user.first_name, user.last_name, user.date_joined.strftime("%B %d, %Y"))
-#             # msg = RaceUserCreationForm("Welcome! {} {}".format(user.first_name, user.last_name), text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
-#             # msg.attach_alternative(html_content, "text/html")
-#             # msg.send()
-#             return redirect("profile")
-#     else:
-#         form = UserProfileUpdate(instance=user.get_profile())
-#     return render(request, "profile/profile_update.html", {
-#         'form': form,
-#     })
-
-#
-# @login_required
-# def profile_update(request):
-#     success = False
-#     user = User.objects.get(pk=request.user.id)
-#     if request.method == 'POST':
-#         upform = UserProfileUpdate(request.POST, instance=user.get_profile())
-#         if upform.is_valid():
-#             up = upform.save(commit=False)
-#             up.user = request.user
-#             up.save()
-#             success = True
-#     else:
-#         upform = UserProfileUpdate(instance=user.get_profile())
-#
-    # return render_to_response('profile/profile_update.html',
-    #     locals(), context_instance=RequestContext(request))
-
-
-
-
 """
-CLUB
+CLUBS
 """
 
 def clubs(request):
     #list all clubs
     clubs = Club.objects.all()
-    return render_to_response("club/clubs.html", {'clubs': clubs})
+    return render(request, "club/clubs.html", {'clubs': clubs})
 
 def view_club(request, club_id):
     #individual club listing
@@ -173,6 +143,7 @@ def new_club(request):
     data = {'form': form}
     return render(request, "club/new_club.html", data)
 
+@staff_member_required
 def edit_club(request, club_id):
     club = Club.objects.get(id=club_id)
     if request.method == "POST":
@@ -190,6 +161,7 @@ def edit_club(request, club_id):
     data = {"club": club, "form": form}
     return render(request, "club/edit_club.html", data)
 
+@staff_member_required
 def delete_club(request, club_id):
     club = Club.objects.get(id=club_id)
     club.delete()
@@ -197,12 +169,13 @@ def delete_club(request, club_id):
 
 
 """
-RACE
+RACES
 """
+
 def races(request):
     #list all races
-    races = Race.objects.all()
-    return render_to_response("race/races.html", {'races': races})
+    all_races = Race.objects.all()
+    return render(request, "race/races.html", {'races': all_races})
 
 def view_race(request, race_id):
     #individual race listing
@@ -222,6 +195,7 @@ def new_race(request):
     data = {'form': form}
     return render(request, "race/new_race.html", data)
 
+@staff_member_required
 def edit_race(request, race_id):
     race = Race.objects.get(id=race_id)
     if request.method == "POST":
@@ -234,6 +208,7 @@ def edit_race(request, race_id):
     data = {"race": race, "form": form}
     return render(request, "race/edit_race.html", data)
 
+@staff_member_required
 def delete_race(request, race_id):
     race = Race.objects.get(id=race_id)
     race.delete()
@@ -241,22 +216,24 @@ def delete_race(request, race_id):
 
 
 """
-RACER
+RACERS
 """
 def racers(request):
     #list all racers
     racers = Racer.objects.all()
-    return render_to_response("racer/racers.html", {'racers': racers})
+    return render(request,"racer/racers.html", {'racers': racers})
 
 def view_racer(request, racer_id):
     #individual racer listing
     results = Result.objects.filter(racer_id=racer_id)
     racer = Racer.objects.get(id=racer_id)
-    data = {"racer": racer, "results": results}
+    # all_results = Result.objects.all()
+    data = {
+        "racer": racer,
+        "results": results,
+        # "all_results": all_results
+    }
     return render(request, "racer/view_racer.html", data)
-
-
-
 
 def new_racer(request):
     # add racer
@@ -270,6 +247,7 @@ def new_racer(request):
     data = {'form': form}
     return render(request, "racer/new_racer.html", data)
 
+@staff_member_required
 def edit_racer(request, racer_id):
     racer = Racer.objects.get(id=racer_id)
     if request.method == "POST":
@@ -282,6 +260,7 @@ def edit_racer(request, racer_id):
     data = {"racer": racer, "form": form}
     return render(request, "racer/edit_racer.html", data)
 
+@staff_member_required
 def delete_racer(request, racer_id):
     racer = Racer.objects.get(id=racer_id)
     racer.delete()
@@ -289,13 +268,13 @@ def delete_racer(request, racer_id):
 
 
 """
-RESULT
+RESULTS
 """
 def results(request):
     #list all results
     past_races = Race.objects.filter(date__lt=datetime.today())
     # results = Result.objects.all()
-    return render_to_response("result/results.html", {'past_races': past_races})
+    return render(request, "result/results.html", {'past_races': past_races})
 
 def view_result(request, result_id):
     #individual result listing
@@ -324,6 +303,7 @@ def new_result(request):
     data = {'form': form}
     return render(request, "result/new_result.html", data)
 
+@staff_member_required
 def edit_result(request, result_id):
     result = Result.objects.get(id=result_id)
     if request.method == "POST":
@@ -336,6 +316,7 @@ def edit_result(request, result_id):
     data = {"result": result, "form": form}
     return render(request, "result/edit_result.html", data)
 
+@staff_member_required
 def delete_result(request, result_id):
     result = Result.objects.get(id=result_id)
     result.delete()

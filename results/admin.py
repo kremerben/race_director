@@ -5,6 +5,7 @@ from models import *
 admin.site.register(User)
 
 class ClubAdmin(admin.ModelAdmin):
+    save_as = True
     fieldsets = (
         ('Name', {
             'fields': ('name', 'region', 'location', 'website')
@@ -19,6 +20,7 @@ class ClubAdmin(admin.ModelAdmin):
 
 
 class RaceAdmin(admin.ModelAdmin):
+    save_as = True
     fieldsets = (
         ('Name', {
             'fields': ('name', 'race_series', 'date', 'start_time', 'location', 'fee', 'description', 'website')

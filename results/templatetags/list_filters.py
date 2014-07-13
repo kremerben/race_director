@@ -10,7 +10,7 @@ register = template.Library()
 
 @register.filter
 def ageclass(age, gender):
-    if gender == 'M':
+    if gender in ['M', 'B']:
         if int(age) < Biathlete.BOY10:
             return Biathlete.age_class['BOY10']
         elif int(age) < Biathlete.BOY12:
@@ -29,7 +29,7 @@ def ageclass(age, gender):
             return Biathlete.age_class['MM']
         elif int(age) < Biathlete.SMM:
             return Biathlete.age_class['SMM']
-    elif gender == 'W':
+    elif gender in ['F', 'W', 'G']:
         if int(age) < Biathlete.GIRL10:
             return Biathlete.age_class['GIRL10']
         elif int(age) < Biathlete.GIRL12:
@@ -62,6 +62,26 @@ def related_images(list, project):
     return [item for item in list if item.project == project]
 
 
+@register.filter
+def get_range(value):
+  """
+    Filter - returns a list containing range made from given value
+    Usage (in template):
+
+    <ul>{% for i in 3|get_range %}
+      <li>{{ i }}. Do something</li>
+    {% endfor %}</ul>
+
+    Results with the HTML:
+    <ul>
+      <li>0. Do something</li>
+      <li>1. Do something</li>
+      <li>2. Do something</li>
+    </ul>
+
+    Instead of 3 one may use the variable set in the views
+  """
+  return range(value)
 
 
 # @register.filter

@@ -1,0 +1,19 @@
+{% load humanize %}
+{% load list_filters %}
+
+{#Have:#}
+{#    results = Result.objects.filter(racer_id=racer_id)#}
+{#    racer = Racer.objects.get(id=racer_id)#}
+
+
+<hr>
+        {% if results.count > 0 %}
+            <h2>Results</h2>
+{#            {% for i in 3|get_range %}#}
+                {% for result in all_results|slice:'3' %}
+                    {{ result.race.name }}
+
+                    {{ result.place|ordinal }} - {{ result.racer.name }}
+                {% endfor %}
+{#            {% endfor %}#}
+        {% endif %}

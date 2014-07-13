@@ -1,16 +1,15 @@
 {% extends "results_manager_base.html" %}
-{% block title %}Clubs{% endblock %}
+{% block title %}Add Results{% endblock %}
 
 {%  block content %}
-<h1>Add a Club</h1>
+<h1>Add Results</h1>
 
 <form method="post">
     {% csrf_token %}
     {{ form }}
-    <input type="submit" value="Add Club">
+    <input type="submit" value="Add Results">
 </form>
 
 {% endblock %}
 
-{% block subnav %}
-{% endblock %}
+{#{% block subnav %}{% endblock %}#}

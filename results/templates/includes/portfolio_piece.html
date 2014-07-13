@@ -1,0 +1,36 @@
+{%  load list_filters %}
+{% for piece in portfolio %}
+    <div class="one_project panel panel-default">
+        <div class="panel-heading">
+    <h3 class="panel-title">{{ piece.name }}</h3>
+        </div>
+          <div class="panel-body">
+                {% if piece.client_name %}
+                    <h4>Client: {{ piece.client_name }}</h4>
+                {% endif %}
+                {% if piece.website %}
+                    <h3><a href="{{ piece.website }}" > {{ piece.website }}</a></h3>
+                {% endif %}
+                <p>{{ piece.description|linebreaks }}</p>
+
+                {% if piece.file %}
+                    <h4>Download File: <a href="{{ piece.file.url }}" > {{ piece.file|filename_only }}</a></h4>
+                {% endif %}
+            </div>
+    </div>
+
+    {% if portfolio|length > 1 %}
+        <hr>
+    {% endif %}
+    {% if project_images|length > 0 %}
+        {% for image in project_images|related_images:piece %}
+{#        {% for image in piece.project.project_set %}#}
+            <div class="portfolio-display-image">
+            <img class="img-rounded" width="100%" src="/static/{{ image.image.url }}">
+            </div>
+        {% endfor %}
+    {% endif %}
+
+{% endfor %}
+
+

@@ -83,7 +83,7 @@
             <tr>
                 <td>{{ result.place }}.</td>
                 <td><a href="{% url "view_racer" result.racer.id %}" >{{ result.racer.name }}</a></td>
-                <td>{{ result.racer.gender }}</td>
+                <td>{{ result.racer.age|ageclass:result.racer.gender }}</td>
                 <td>{{ result.first_shoot }}</td>
                 <td>{{ result.second_shoot }}</td>
                 <td>{{ result.third_shoot }}</td>

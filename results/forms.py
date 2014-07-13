@@ -5,6 +5,17 @@ from django.contrib.auth.models import User
 from models import *
 
 
+class BulkCreateResults(forms.Form):
+    race = forms.ModelChoiceField(queryset=Race.objects.all())
+    results = forms.CharField(widget=forms.Textarea)
+
+    class Meta:
+        model = Result
+
+
+
+
+
 class RaceUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(max_length=30)
