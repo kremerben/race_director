@@ -13,7 +13,7 @@ urlpatterns = patterns('',
     url(r'^$', 'results.views.home', name='home'),
     url(r'^register/$', 'results.views.register', name='register'),
     url(r'^login/$', 'django.contrib.auth.views.login', name='login'),
-    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout' ),
+    url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='logout'),
 
 
     url(r'^profile/$', 'results.views.profile', name='profile'),

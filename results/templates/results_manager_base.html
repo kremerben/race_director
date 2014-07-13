@@ -87,7 +87,7 @@
 {% block footer %}
     <footer>
 
-            <span>
+    <span>
     {% if user.is_authenticated %}
         <a href="{% url 'profile' %}">{{ user.username }}</a> |
         {% if user.is_staff %}
@@ -98,7 +98,7 @@
     {% else %}
         <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
     {% endif %}
-</span>
+    </span>
 
 
     </footer>

@@ -24,32 +24,80 @@ def bulk_results(request):
         form = BulkCreateResults(request.POST)
         if form.is_valid():
             race = form.cleaned_data['race']
-            results = form.cleaned_data['results']
-            for line in results.split('\n'):
-                m = re.search(r'^.+(BOY|BOYS|YM|JM|SM|MM|SMM|GIRL|GIRLS|YW|JW|SW|MW|SMW).+', line)
-                age_class = ""
-                if m:
-                    age_class = m.group(0)
-                    line = line.replace(age_class, "")
-                gender = 'M'
-                m = re.search(r'^([0-9]+)\s([0-9]+)?\s?(\S+\s+\S+)\s+([a-zA-Z \.\-]+).+', line)
-                name = "NN"
-                place = 2
-                if m:
-                    place = m.group(1)
-                    bib_number = m.group(2)
-                    name = m.group(3)
-                    club = m.group(4)
-                racer, created = Racer.objects.get_or_create(name=name, gender=gender)
+            results_data = form.cleaned_data['results']
+            added_result = []
+            for line in results_data.split('\n'):
+                line = line.rstrip()
+                if line == '' or line == ' ' or not line:
+                    pass
+                else:
+                    # FINDING SETTING AND REMOVING AGE CLASS
+                    m = re.search(r'BOY|BOYS|YM|JM|SM|MM|SMM|GIRL|GIRLS|YW|JW|SW|MW|SMW', line)
+                    age_class = ""
+                    if m:
+                        age_class = m.group(0)
+                        line = line.replace(age_class, "")
+                    gender = get_gender(age_class)
+                    # FINDING SETTING AND REMOVING PERCENT
+                    m = re.search(r'(\d+\.\d+%)', line)
+                    percent = ""
+                    if m:
+                        percent = m.group(0)
+                        line = line.replace(percent, "")
+                    # FINDING SETTING AND REMOVING MULTI
+                    m = re.search(r'^([0-9]+)\s([0-9]+)?\s?(\S+\s+\S+)\s+([a-zA-Z \.\-]+) ', line)
+                    name = "Empty Name"
+                    all_captured = ""
+                    bib_number = -1
+                    club = ""
+                    place = 999
+                    if m:
+                        place = m.group(1)
+                        bib_number = m.group(2)
+                        name = m.group(3)
+                        club = m.group(4)
+                        all_captured = m.group()
+                    racer, created = Racer.objects.get_or_create(name=name, gender=gender)
+                    line = line.replace(all_captured, "")
+                    # if not len(str(bib_number)):
+                    #     pass
+                    # else:
+                    #     line = line.replace(str(bib_number), "", 1)
+                    # FINDING TIMES
+                    m = re.findall(r'(\d+:?\d+:\d+[\.]?[\d]?)', line) #return list of times
+                    finish_time = median(m)
+                    for item in m:
+                        line = line.replace(str(item), "")
+
+                    # shooting scores
+                    first_shoot = -1
+                    second_shoot = -1
+                    third_shoot = -1
+                    fourth_shoot = -1
+                    all_shooting = -1
+                    line = line.replace(" ", "")
+                    # m = re.findall(r'[ \-]([0-5])', line)
+                    num_of_shooting = len(line)
+                    if num_of_shooting % 2 == 1:
+                        num_of_shooting -= 1
+                    if m:
+                        # all_shooting = m.group()
+                        first_shoot = line[0]
+                        second_shoot = line[1]
+                        if num_of_shooting > 2:
+                            third_shoot = line[2]
+                            fourth_shoot = line[3]
+                    # line = line.replace(all_shooting, "")
 
 
+                    # finish_time = line
 
+                    result = Result.objects.create(race=race, racer=racer, place=place,
+                                          start_time='0:00:00', finish_time=finish_time,
+                                          first_shoot=first_shoot, second_shoot=second_shoot,
+                                          third_shoot=third_shoot, fourth_shoot=fourth_shoot,)
 
-
-                Result.objects.create(race=race, racer=racer, place=place,
-                                      start_time='0:00:00', finish_time='0:10:12',
-                                      first_shoot=1, second_shoot=2, third_shoot=3,
-                                      fourth_shoot=4)
+                    added_result.append(result)
 
             # user = form.save()
             # user.email_user("Welcome!", "Thank you, {} {} for signing up for our website.".format(user.first_name, user.last_name))
@@ -58,7 +106,10 @@ def bulk_results(request):
             # msg = RaceUserCreationForm("Welcome! {} {}".format(user.first_name, user.last_name), text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
             # msg.attach_alternative(html_content, "text/html")
             # msg.send()
-            return redirect("bulk_results")
+            new_form = BulkCreateResults()
+            return render(request, "result/bulk_add_results.html", {
+                'added_results': added_result, 'form': new_form,
+            })
     else:
         form = BulkCreateResults()
     return render(request, "result/bulk_add_results.html", {
@@ -321,3 +372,27 @@ def delete_result(request, result_id):
     result = Result.objects.get(id=result_id)
     result.delete()
     return redirect("/results")
+
+
+def get_gender(value):
+    if any(value in s for s in ['GIRL','GIRLS','YW','JW','SW','MW','SMW','W','F','G']):
+        return 'F'
+    else:
+        return 'M'
+
+def num_groups(regex):
+    return re.compile(regex).groups
+
+def find_finish_time(times):
+    result = '8:88:88'
+    times = sorted(times)
+
+def median(lst):
+    new_lst = []
+    for item in lst:
+        if item.count(':') == 1:
+            item = '0:' + item
+        new_lst.append(item)
+    even = (0 if len(new_lst) % 2 else 1) + 1
+    half = (len(new_lst) - 1) / 2
+    return sorted(new_lst)[int(half):int((half + even)/ float(even))][0]

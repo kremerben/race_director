@@ -10,6 +10,18 @@
     <input type="submit" value="Add Results">
 </form>
 
+
+<section>
+    {% if added_results|length > 0 %}
+    <br>
+    <h4>Added Results</h4>
+    <ul>
+    {% for result in added_results %}
+        <li>'{{ result }}'</li>
+    {% endfor %}
+    </ul>
+    {% endif %}
+</section>
 {% endblock %}
 
 {#{% block subnav %}{% endblock %}#}

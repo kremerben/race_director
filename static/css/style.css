@@ -1,8 +1,8 @@
 body {
     font-family: 'Amaranth', sans-serif;
     font-size: 2em;
-    width: 600px;
-    margin:40px auto 0;
+    width: 800px;
+    margin:40px auto 60px;
     border:1px solid #f3efde;
     padding:15px;
 }
@@ -70,4 +70,17 @@ nav li:hover {
     /*border:1px solid #cdc9bb;*/
     background-color: #ebebeb;
     /*margin:0 12px 0 0;*/
+}
+
+footer {
+    position: fixed;
+    left: 0px;
+    bottom: 0px;
+    height: 60px;
+    width: 100%;
+    background: #636363;
+    color: #FFF;
+    padding: 10px;
+    text-align: center;
+    font-size: 1em;
 }

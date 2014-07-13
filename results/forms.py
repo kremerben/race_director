@@ -8,11 +8,8 @@ from models import *
 class BulkCreateResults(forms.Form):
     race = forms.ModelChoiceField(queryset=Race.objects.all())
     results = forms.CharField(widget=forms.Textarea)
-
     class Meta:
         model = Result
-
-
 
 
 
