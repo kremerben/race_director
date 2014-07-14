@@ -22,7 +22,7 @@
                SLIDER SCRIPTS
                ======================================*/
             $('#carousel-slider').carousel({
-                interval: 15000 //TIME IN MILLI SECONDS
+                interval: 30000 //TIME IN MILLI SECONDS
             })
             /*====================================
                 SCROLLING SCRIPTS
@@ -33,7 +33,7 @@
                     var $anchor = $(this);
                     $('html, body').stop().animate({
                         scrollTop: $($anchor.attr('href')).offset().top
-                    }, 2200, 'easeInOutExpo');
+                    }, 12200, 'easeInOutExpo');
                     event.preventDefault();
                 });
             });
@@ -43,8 +43,8 @@
             $(function () {
                 $.vegas('slideshow', {
                     backgrounds: [
-                      { src: '/static/img/Biathlon_shooting_range.JPG', fade: 2000, delay: 14000 }, 
-                      { src: '/static/img/jpeg-1.jpg', fade: 2000, delay: 14000 }, 
+                      { src: '/static/img/Biathlon_shooting_range.JPG', fade: 2000, delay: 30000 },
+                      { src: '/static/img/jpeg-1.jpg', fade: 2000, delay: 30000 },
                         
                      
                     ]

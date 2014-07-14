@@ -59,10 +59,6 @@ def bulk_results(request):
                         all_captured = m.group()
                     racer, created = Racer.objects.get_or_create(name=name, gender=gender)
                     line = line.replace(all_captured, "")
-                    # if not len(str(bib_number)):
-                    #     pass
-                    # else:
-                    #     line = line.replace(str(bib_number), "", 1)
                     # FINDING TIMES
                     m = re.findall(r'(\d+:?\d+:\d+[\.]?[\d]?)', line) #return list of times
                     finish_time = median(m)
@@ -95,14 +91,6 @@ def bulk_results(request):
                                           third_shoot=third_shoot, fourth_shoot=fourth_shoot,)
 
                     added_result.append(result)
-
-            # user = form.save()
-            # user.email_user("Welcome!", "Thank you, {} {} for signing up for our website.".format(user.first_name, user.last_name))
-            # text_content = 'Thank you {} {} for signing up for our website on {}.'.format(user.first_name, user.last_name, user.date_joined)
-            # html_content = '<h2>Thanks {} {} for signing up on {}!</h2> <div>I hope you enjoy using our site</div>'.format(user.first_name, user.last_name, user.date_joined.strftime("%B %d, %Y"))
-            # msg = RaceUserCreationForm("Welcome! {} {}".format(user.first_name, user.last_name), text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
-            # msg.attach_alternative(html_content, "text/html")
-            # msg.send()
             new_form = BulkCreateResults()
             return render(request, "result/bulk_add_results.html", {
                 'added_results': added_result, 'form': new_form,
@@ -123,12 +111,6 @@ def register(request):
         form = RaceUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            # user.email_user("Welcome!", "Thank you, {} {} for signing up for our website.".format(user.first_name, user.last_name))
-            # text_content = 'Thank you {} {} for signing up for our website on {}.'.format(user.first_name, user.last_name, user.date_joined)
-            # html_content = '<h2>Thanks {} {} for signing up on {}!</h2> <div>I hope you enjoy using our site</div>'.format(user.first_name, user.last_name, user.date_joined.strftime("%B %d, %Y"))
-            # msg = RaceUserCreationForm("Welcome! {} {}".format(user.first_name, user.last_name), text_content, settings.DEFAULT_FROM_EMAIL, [user.email])
-            # msg.attach_alternative(html_content, "text/html")
-            # msg.send()
             return redirect("profile")
     else:
         form = RaceUserCreationForm()

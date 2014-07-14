@@ -4,7 +4,7 @@
 {%  block content %}
 
 <h1>Edit  {{ race.name }}</h1>
-<form method="post">
+    <form method="post" action="." enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Update Race">
@@ -16,10 +16,15 @@
 {% endblock %}
 
 {% block subnav %}
-<nav>
-    <ul>
-        <li><a href="{% url "clubs" %}"> Clubs</a>
-        <li><a href="{% url "races" %}"> Races</a>
-    </ul>
-</nav>
+{#        {% if user.is_staff %}#}
+{#        <nav class="navbar navbar-default">#}
+{#            <ul class="nav navbar-nav">#}
+{#        <li><a href="{% url "clubs" %}"> Clubs</a>#}
+{#        <li><a href="{% url "races" %}"> Races</a>#}
+{#            </ul>#}
+{#        </nav>#}
+{#    {% endif %}#}
+
+
+
 {% endblock %}

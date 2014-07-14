@@ -6,8 +6,13 @@ from models import *
 
 
 class BulkCreateResults(forms.Form):
+    # CHOICES=[('Male','M'),
+    #      ('Female','F')]
+
     race = forms.ModelChoiceField(queryset=Race.objects.all())
     results = forms.CharField(widget=forms.Textarea)
+    # gender = forms.ChoiceField(choices=CHOICES, widget=forms.RadioSelect())
+
     class Meta:
         model = Result
 

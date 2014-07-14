@@ -6,7 +6,7 @@
 
 <ul>
     {% for race in past_races|dictsort:"date" reversed %}
-        <li><a href="{% url "view_race_results" race.id %}" >{{ race.name }}</a></li>
+        <li>{{ race.race_series }} : {{ race.date }} - <a href="{% url "view_race_results" race.id %}" >{{ race.name }}</a></li>
     {% endfor %}
 </ul>
 
@@ -17,8 +17,8 @@
     <nav class="navbar navbar-default">
         <ul class="nav navbar-nav">
         <li><a href="{% url 'new_result' %}">Add a new result</a></li>
+        <li><a href="{% url 'bulk_results' %}">Add bulk results</a></li>
        </ul>
     </nav>
     {% endif %}
-    </nav>
 {% endblock %}

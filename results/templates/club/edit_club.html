@@ -16,9 +16,13 @@
 {% endblock %}
 
 {% block subnav %}
-<nav>
-    <ul>
-        <li><a href="{% url "clubs" %}"> Clubs</a>
-    </ul>
-</nav>
+    {% if user.is_staff %}
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+        <li><a href="{% url "clubs" %}">Clubs</a></li>
+        <li><a href="{% url "view_club" club.id %}" >View {{ club.name }}</a></li>
+
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock %}

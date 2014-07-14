@@ -13,6 +13,14 @@
 <h3>Region: {{ club.region }}</h3>
 <h3>Location: {{ club.location }}</h3>
 <h3><a href="{{ club.website }}" target="_blank">{{ club.website }}</a></h3>
+<hr>
+    <ul>
+    <li>{{ club.contact_name }}</li>
+    {%  if club.contact_email %}
+        <li><a href="mailto:{{ club.contact_email }}">{{ club.contact_email }}</a></li>
+    <li>{{ club.contact_phone }}</li>
+        {% endif %}
+    </ul>
     </div>
 <div class="club_map">
 <iframe

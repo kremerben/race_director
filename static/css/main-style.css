@@ -24,10 +24,19 @@ h1 {
     padding: 20px;
 }
 
-form {
+.container form  {
     font-size: 1.2em;
+    width: 50%;
+margin: 0 auto;
 }
 
+.bulk_add_form {
+    width:100% !important;
+}
+
+textarea {
+    width: 100%;
+}
 label {
     width: 100%;
     font-size: .8em;
@@ -103,3 +112,4 @@ margin-top: 0;
     width: 400px;
     float:right;
 }
+

@@ -225,3 +225,8 @@ background-color:transparent;
     width: 100%;
     bottom: 0;
 }
+
+input[type="radio"], input[type="checkbox"] {
+    width: 30px;
+}
+

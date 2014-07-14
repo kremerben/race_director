@@ -24,13 +24,11 @@
     </ul>
 
 <hr>
-
-{% if race.racers.count > 0 %}
-
+{% if race.race.count > 0 %}
     <h1>Racers in {{ club.name }}:</h1>
         <ol>
-            {% for racer in race.racers.all|dictsort:'place' %}
-                <li><a href="{% url "view_racer" racer.id %}" >{{ racer.name }}</a></li>
+            {% for racer in race.race.all %}
+                <li><a href="{% url "view_racer" racer.racer.id %}" >{{ racer.racer.name }}</a></li>
             {% endfor %}
         </ol>
 {% endif %}

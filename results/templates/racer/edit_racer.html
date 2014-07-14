@@ -16,10 +16,12 @@
 {% endblock %}
 
 {% block subnav %}
-<nav>
-    <ul>
+        {% if user.is_staff %}
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
         <li><a href="{% url "clubs" %}"> Clubs</a>
-        <li><a href="{% url "racers" %}"> Racers</a>
-    </ul>
-</nav>
+        <li><a href="{% url "races" %}"> Races</a>
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock %}
