@@ -18,7 +18,7 @@ def home(request):
     return render(request, "home.html", data)
 
 
-@login_required
+@staff_member_required
 def bulk_results(request):
     if request.method == 'POST':
         form = BulkCreateResults(request.POST)
@@ -88,10 +88,7 @@ def bulk_results(request):
                             third_shoot = line[2]
                             fourth_shoot = line[3]
                     # line = line.replace(all_shooting, "")
-
-
                     # finish_time = line
-
                     result = Result.objects.create(race=race, racer=racer, place=place,
                                           start_time='0:00:00', finish_time=finish_time,
                                           first_shoot=first_shoot, second_shoot=second_shoot,

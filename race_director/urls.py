@@ -20,7 +20,6 @@ urlpatterns = patterns('',
     url(r'^profile/(?P<user_id>\w+)/update/$', 'results.views.profile_update', name='profile_update'),
 
 
-
     url(r'^password_reset/$', 'django.contrib.auth.views.password_reset', name='password_reset'),
     url(r'^password_reset/done/$', 'django.contrib.auth.views.password_reset_done', name='password_reset_done'),
     # Support old style base36 password reset links; remove in Django 1.7
@@ -30,8 +29,6 @@ urlpatterns = patterns('',
         'django.contrib.auth.views.password_reset_confirm',
         name='password_reset_confirm'),
     url(r'^reset/done/$', 'django.contrib.auth.views.password_reset_complete', name='password_reset_complete'),
-
-
 
 
 

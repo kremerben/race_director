@@ -5,9 +5,8 @@
 
 {%  block content %}
 
-<h1>RESULTS: <br>{{ race.name }}</h1>
-<h2>Date: {{ race.date }}</h2>
-<h2>Location: {{ race.location }}</h2>
+<h1>RESULTS:  {{ race.name|title }}</h1>
+<h3>Date: {{ race.date }} - Location: {{ race.location }}</h3>
 <hr>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -44,7 +43,12 @@
             <tr>
                 <td>{{ result.place }}.</td>
                 <td><a href="{% url "view_racer" result.racer.id %}" >{{ result.racer.name }}</a></td>
-                <td>{{ result.racer.age|ageclass:result.racer.gender }}</td>
+                {% if result.racer.age and result.racer.gender %}
+                    <td>{{ result.racer.age|ageclass:result.racer.gender }}</td>
+                    {% else %}
+                    <td>--</td>
+                {% endif %}
+
                 <td>{{ result.first_shoot }}</td>
                 <td>{{ result.second_shoot }}</td>
                 <td>{{ result.third_shoot }}</td>
@@ -83,7 +87,11 @@
             <tr>
                 <td>{{ result.place }}.</td>
                 <td><a href="{% url "view_racer" result.racer.id %}" >{{ result.racer.name }}</a></td>
-                <td>{{ result.racer.age|ageclass:result.racer.gender }}</td>
+                {% if result.racer.age and result.racer.gender %}
+                    <td>{{ result.racer.age|ageclass:result.racer.gender }}</td>
+                    {% else %}
+                    <td>--</td>
+                {% endif %}
                 <td>{{ result.first_shoot }}</td>
                 <td>{{ result.second_shoot }}</td>
                 <td>{{ result.third_shoot }}</td>

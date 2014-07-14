@@ -12,7 +12,6 @@ class BulkCreateResults(forms.Form):
         model = Result
 
 
-
 class RaceUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True)
     first_name = forms.CharField(max_length=30)
@@ -50,9 +49,8 @@ class RaceForm(ModelForm):
 class RacerForm(ModelForm):
     class Meta:
         model = Racer
-        # self.fields['club'].queryset =
         # widgets = {
-        #   'club': forms.ModelChoiceField()
+        #     (shooting scores should be limited min_value=1, max_value=5)
         # }
 
 class ResultForm(ModelForm):
@@ -64,15 +62,4 @@ class UserForm(UserChangeForm):
     class Meta:
         model = User
         fields = ("first_name", "last_name", "image", "bio", "email", "address1", "address2", "city", "state", "zip", "country", "username", "password")
-
-# class UserProfileUpdate(forms.Form):
-#     first_name = forms.CharField(max_length=30)
-#     last_name = forms.CharField(max_length=30)
-#     email = forms.EmailField(required=True)
-#
-#
-#     class Meta:
-#         model = User
-#         fields = ('first_name', 'last_name', 'email')
-#
 

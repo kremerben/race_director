@@ -1,86 +1,227 @@
+﻿/*=============================================================
+    Authour URI: www.binarytheme.com
+    License: Commons Attribution 3.0
+
+    http://creativecommons.org/licenses/by/3.0/
+
+    100% Free To use For Personal And Commercial Use.
+    IN EXCHANGE JUST GIVE US CREDIT US AND TELL YOUR FRIENDS ABOUT US
+   
+    ========================================================  */
+/* =============================================================
+   GENERAL STYLES
+ ============================================================ */
 body {
-    font-family: 'Amaranth', sans-serif;
-    font-size: 2em;
-    width: 800px;
-    margin:40px auto 60px;
-    border:1px solid #f3efde;
-    padding:15px;
-}
-h1 {
-    font-size: 2em;
-}
-.serif {
-    font-family: serif;
-}
-.center {
-    color: #0f0f0f;
-    /*width:458px;*/
-    /**width:500px;*/
-    text-align: center;
-    vertical-align:middle;
-    /*border: 1px solid #003366;*/
-    padding: 20px;
+    /*font-family: 'Open Sans', sans-serif;*/
+	letter-spacing:1px;
+    color: #2e2e2e;
+   
 }
 
-form {
-    font-size: 1.8em;
+
+section {
+padding:50px 20px 25px 20px;
+}
+h2
+{
+font-size:60px;
+
 }
 
-label {
-    width: 100%;
-    font-size: .8em;
-    color: #636363;
+p {
+    line-height:30px;
+    /*margin-bottom:35px;*/
 }
-input {
-    display: block;
-    margin: 7px;
-    padding:3px;
-    height: 1.5em;
-    width: 100%;
-    font-size: 1em;
+hr {
+    border-top: 1px solid rgb(27, 106, 131);
+    margin:5px 0;
 }
-input[type=submit] {
-    background-color: #91ffb6;
+ul, ol {
+    text-align: left;
 }
-
-form select {
-    font-size: .8em;
+/* =============================================================
+   NAVBAR STYLES
+ ============================================================ */
+.navbar-inverse {
+background-color: rgb(22, 67, 87);
+border-color: transparent;
 }
 
-nav ul {
-    padding: 0;
+.navbar-inverse .navbar-nav > .active > a, .navbar-inverse .navbar-nav > .active > a:hover, .navbar-inverse .navbar-nav > .active > a:focus {
+background-color: transparent;
+border-bottom: 4px solid rgba(0, 231, 222, 0.72);
+
+
+}
+.navbar-inverse .navbar-nav > li > a {
+color: #FFF;
+font-size: 1em;
+font-weight: 800;
+padding: 10px;
+letter-spacing: 2px;
+margin:10px 5px 10px 5px;
+}
+
+.navbar-inverse .navbar-brand {
+color: #FFF;
+}
+
+#menu .container {
+    background-color: transparent;
+    padding: 0 20px;
+}
+
+.navbar-inverse .navbar-nav > .open > a, .navbar-inverse .navbar-nav > .open > a:hover, .navbar-inverse .navbar-nav > .open > a:focus {
+    background-color: transparent;
+}
+
+.navbar-default {
+     background-color: transparent;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+    background-color:#428bca ;
+    color:#FFF;
+}
+
+
+
+/*nav ul {*/
+    /*padding: 0;*/
     /*font-size: 0.7em;*/
-}
+/*}*/
 
-nav li {
-    display: inline-block;
+/*nav li {*/
+    /*display: inline-block;*/
     /*border:1px solid #cdc9bb;*/
-    padding: 2px 12px;
+    /*padding: 2px 12px;*/
     /*background-color: #f3efde ;*/
     /*margin:12px;*/
-}
-nav li.a {
-    border:1px solid #cdc9bb;
-    padding: 2px 12px;
-    /*background-color: #f3efde ;*/
-    margin:12px;
-}
-
-nav li:hover {
+/*}*/
+/*nav li.a {*/
     /*border:1px solid #cdc9bb;*/
-    background-color: #ebebeb;
+    /*padding: 2px 12px;*/
+    /*background-color: #f3efde ;*/
+    /*margin:12px;*/
+/*}*/
+
+/*nav li:hover {*/
+    /*border:1px solid #cdc9bb;*/
+    /*background-color: #ebebeb;*/
     /*margin:0 12px 0 0;*/
+/*}*/
+
+/*footer {*/
+    /*position: fixed;*/
+    /*left: 0px;*/
+    /*bottom: 0px;*/
+    /*height: 60px;*/
+    /*width: 100%;*/
+    /*background: #636363;*/
+    /*color: #FFF;*/
+    /*padding: 10px;*/
+    /*text-align: center;*/
+    /*font-size: 1em;*/
+/*}*/
+
+/* =============================================================
+   HOME STYLES
+ ============================================================ */
+
+.container {
+    background-color: rgba(235, 235, 235, 0.90);
+    padding: 0 100px;
+
 }
 
-footer {
+
+#home {
+    text-align:left;
+    padding:20px 0 50px;
+}
+
+#home i {
+    margin:5px;
+}
+
+#home h1 {
+    padding-top:10px;
+    font-size:60px;
+    font-weight:900;
+    /*color:#fff;*/
+    line-height:80px;
+    padding-bottom:5px;
+}
+
+#home .container {
+    padding:50px;
+    margin:0 auto 20px;
+}
+/*SLIDER STYLES*/
+#carousel-slider {
+    /*color:#fff; */
+    min-height:420px;
+    padding:30px 20px 5px 20px; 
+}
+    .carousel-control.left {
+left: 0;
+right: auto;
+background-repeat: repeat-x;
+background-image: linear-gradient(to left,rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, 0) 100%)!important;
+}
+.carousel-control.right {
+right: 0;
+left: auto;
+background-repeat: repeat-x;
+background-image: linear-gradient(to right,rgba(0, 0, 0, .0001) 0%, rgba(0, 0, 0, 0) 100%)!important;
+}
+.carousel-indicators li {
+    border:5px solid #FFF;
+    width:20px;
+    height:20px;
+}
+.carousel-indicators .active {
+    border:5px solid rgba(0, 231, 222, 0.72);
+    width:20px;
+    height:20px;
+	background-color:transparent;
+    
+}
+
+/* =============================================================
+   BUTTON STYLES
+ ============================================================ */
+
+.custom-btn-1 {
+    border-radius:0px;
+    background-color:transparent;
+    border:2px solid rgba(0, 231, 222, 0.72);
+    margin:5px;
+    color:#fff;
+}
+    .custom-btn-1:hover {
+         color:#fff;
+          background-color:rgba(0, 0, 0,  0.42);
+    }
+
+/* =============================================================
+   CONTACT STYLES
+ ============================================================ */
+  #contact  .form-control{
+background-color:transparent;
+}
+#contact label {
+    padding:15px;
+}
+  /* =============================================================
+   FOOTER STYLES
+ ============================================================ */
+.footer {
+    text-align:center;
+    color:#fff;
+    background-color:rgb(22, 67, 87);
+    padding:20px;
     position: fixed;
-    left: 0px;
-    bottom: 0px;
-    height: 60px;
     width: 100%;
-    background: #636363;
-    color: #FFF;
-    padding: 10px;
-    text-align: center;
-    font-size: 1em;
+    bottom: 0;
 }

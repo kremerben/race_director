@@ -1,35 +1,48 @@
 {% extends "results_manager_base.html" %}
 {% block title %}Clubs{% endblock %}
+    {% block head %}
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC0yd3XgwhAeyIvrsh635SduyA7_AFWe-A">
+    </script>
+    {% endblock %}
 
 {%  block content %}
-
+<div class="club-info">
 <h1>{{ club.name }}</h1>
-<h2>Region: {{ club.region }}</h2>
-<h2>Location: {{ club.location }}</h2>
-<h2>web: {{ club.website }}</h2>
+<h3>Region: {{ club.region }}</h3>
+<h3>Location: {{ club.location }}</h3>
+<h3><a href="{{ club.website }}" target="_blank">{{ club.website }}</a></h3>
+    </div>
+<div class="club_map">
+<iframe
+  width="400"
+  height="400"
+  frameborder="0" style="border:0"
+  src="https://www.google.com/maps/embed/v1/place?key=AIzaSyC0yd3XgwhAeyIvrsh635SduyA7_AFWe-A
+    &q={{ club.location }}">
+</iframe></iframe>
 
-
-
-&nbsp; <a href="{% url "edit_club" club.id %}">Edit club</a> *
-    <a href="{% url "delete_club" club.id %}">Delete club</a>
-
-{% if club.racers.count > 0 %}
-    <h1>Racers in {{ club.name }}:</h1>
+</div>
+<div class="clearfix"></div>
+{% if club.racer_club.count > 0 %}
+    <hr>
+    <h2>Racers in {{ club.name }}:</h2>
         <ul>
-            {% for racer in club.racers.all|dictsort:'name' %}
-        {#        <li><a href="{% url "view_racer" racer.id %}" >{{ racer.name }}</a></li>#}
+            {% for racer in club.racer_club.all|dictsort:'name' %}
+                <li><a href="{% url "view_racer" racer.id %}" >{{ racer.name }}</a></li>
             {% endfor %}
         </ul>
 {% endif %}
 {% endblock %}
 
 {% block subnav %}
-<nav>
-   {% if user.is_staff %}
-       <ul>
-           <li><a href="{% url "edit_club" club.id %}">Edit Club</a></li>
-           <li> <a href="{% url "delete_club" club.id %}">Delete Club</a></li>
-       </ul>
-   {% endif %}
-</nav>
+    {% if user.is_staff %}
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+               <li><a href="{% url "edit_club" club.id %}">Edit Club</a></li>
+               <li> <a href="{% url "delete_club" club.id %}">Delete Club</a></li>
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock %}

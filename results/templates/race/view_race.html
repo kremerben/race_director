@@ -4,9 +4,9 @@
 {%  block content %}
 
 <h1>{{ race.name }}</h1>
-<h2>Date: {{ race.date }}</h2>
-<h2>Location: {{ race.location }}</h2>
-<h2>Start time: {{ race.start_time }}</h2>
+<h3>Date: {{ race.date }}</h3>
+<h3>Location: {{ race.location }}</h3>
+<h3>Start time: {{ race.start_time }}</h3>
 <hr>
 <p>{{ race.description|linebreaks }}</p>
     <ul>
@@ -24,8 +24,6 @@
     </ul>
 
 <hr>
-&nbsp; <a href="{% url "edit_race" race.id %}">Edit race</a> *
-    <a href="{% url "delete_race" race.id %}">Delete race</a>
 
 {% if race.racers.count > 0 %}
 
@@ -39,9 +37,12 @@
 {% endblock %}
 
 {% block subnav %}
-<nav>
-    <ul>
-        <li><a href="{% url "clubs" %}"> Clubs</a>
-    </ul>
-</nav>
+    {% if user.is_staff %}
+        <nav class="navbar navbar-default">
+            <ul class="nav navbar-nav">
+                <li><a href="{% url "edit_race" race.id %}">Edit Race</a></li>
+                <li><a href="{% url "delete_race" race.id %}">Delete race</a></li>
+            </ul>
+        </nav>
+    {% endif %}
 {% endblock %}

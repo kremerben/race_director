@@ -6,7 +6,7 @@
 
 <h1>{{ racer.name }}</h1>
     {% if racer.club.name %}
-        <h2>{{ racer.club.name }}</h2>
+        <h3>{{ racer.club.name }}</h3>
     {% endif %}
     {% if racer.city %}
         <h3>{{ racer.city }}, {{ racer.state }}</h3>
@@ -20,11 +20,9 @@
         <li>{{ racer.phone }}</li>
     {% endif %}
     </ul>
-
     {% if racer.age > 1 %}
         <p>Age: {{ racer.age }}</p>
     {% endif %}
-
     {% if racer.city %}
         <blockquote>
             {{ racer.address1 }}<br>
