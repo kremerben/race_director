@@ -1,18 +1,4 @@
 
-
-/*=============================================================
-    Authour URI: www.binarytheme.com
-    License: Commons Attribution 3.0
-
-    http://creativecommons.org/licenses/by/3.0/
-
-    100% Free To use For Personal And Commercial Use.
-    IN EXCHANGE JUST GIVE US CREDIT US AND TELL YOUR FRIENDS ABOUT US
-   
-    ========================================================  */
-    
-    
-
 (function ($) {
     "use strict";
     var mainApp = {
@@ -55,15 +41,9 @@
 
             });
 
-          
-
             /*====================================
                WRITE YOUR SCRIPTS BELOW  "plugins/bootstrap.js" %}
            ======================================*/
-
-
-
-
 
         },
 
