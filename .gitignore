@@ -58,3 +58,4 @@ venv
 staticfiles
 
 .idea
+.DS_Store
